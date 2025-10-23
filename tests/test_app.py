@@ -5,9 +5,10 @@ import app as app_module
 
 def setup_temp_db(tmp_path, monkeypatch):
     db_file = tmp_path / "test_app.db"
-    monkeypatch.setattr(DAL, 'DATABASE_FILE', str(db_file))
+    # reload DAL first, then set DATABASE_FILE so any subsequent reloads use the temp DB
     importlib.reload(DAL)
-    # re-init app module so it uses the reloaded DAL
+    monkeypatch.setattr(DAL, 'DATABASE_FILE', str(db_file))
+    # reload app so it uses the updated DAL (and the tmp DB)
     importlib.reload(app_module)
 
 

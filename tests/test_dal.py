@@ -5,8 +5,9 @@ import DAL
 def test_dal_crud(tmp_path, monkeypatch):
     # Use a temporary database file so tests don't touch the real DB
     db_file = tmp_path / "test_dal.db"
-    monkeypatch.setattr(DAL, 'DATABASE_FILE', str(db_file))
+    # reload DAL first, then set DATABASE_FILE so the reload doesn't overwrite it
     importlib.reload(DAL)
+    monkeypatch.setattr(DAL, 'DATABASE_FILE', str(db_file))
 
     # initialize and assert empty
     DAL.init_db()
