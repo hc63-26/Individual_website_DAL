@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="content-wide">
+    <h2>Projects</h2>
+    <p class="intro-text">A selection of projects showcasing analytics, integrations, and product-focused
+        dashboards. Click through to view demos and engage with the website.</p>
+
+    <!-- Database Projects Table -->
+    {% if projects %}
+    <div style="margin-bottom: 2rem;">
+        <h3>Project Database</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.title }}</td>
+                    <td>{{ project.description }}</td>
+                    <td>
+                        {% if project.image_file_name %}
+                        <img src="{{ url_for('static', filename='images/' + project.image_file_name) }}" 
+                             alt="{{ project.title }}" 
+                             style="max-width: 100px; max-height: 100px; object-fit: cover;" />
+                        {% else %}
+                        No image
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('delete_project_route', project_id=project.id) }}" 
+                           class="btn btn-danger btn-sm" 
+                           onclick="return confirm('Are you sure you want to delete this project?')">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Add Project Button -->
+    <div style="margin-bottom: 2rem;">
+        <a href="{{ url_for('add_project_route') }}" class="btn btn-primary">Add New Project</a>
+    </div>
+
+    <!-- Original Static Projects -->
+    <h3>Featured Projects</h3>
+    <section class="teaser-row" aria-label="Project list">
+
+        <!-- Project 1 -->
+        <article class="card project-card" aria-labelledby="proj-1-title">
+            <h3 id="proj-1-title">Student Course Assignment Portal</h3>
+            <p class="project-desc">A university-facing portal for assigning students to courses and managing
+                enrollments. Administrators can upload CSV files to bulk-import students or course assignments;
+                the system validates inputs, parses files, and inserts records into the student information
+                system. Role-based access control, upload feedback, and error reporting are included. Try the
+                live demo below! (not required to put in valid email and password)</p>
+            <p class="project-tech"><span class="skill">Node.js</span> <span class="skill">APIs</span> <span
+                    class="skill">CSS</span> <span class="skill">File Uploads (CSV)</span> <span
+                    class="skill">HTML</span> <span class="skill">SQL</span></p>
+            <img src="{{ url_for('static', filename='images/project.png') }}" alt="Student course assignment portal dashboard"
+                class="profile-photo project-full" />
+            <p class="project-links">
+                <a class="btn btn-cta" href="https://r8rqdg.csb.app/index.html" target="_blank"
+                    rel="noopener">Live Demo</a>
+            </p>
+        </article>
+
+        <!-- Project 2: University Student Assignment Portal -->
+        <article class="card project-card" aria-labelledby="proj-2-title">
+            <h3 id="proj-2-title">Student Security Dashboard (Prototype & Wireframe)</h3>
+            <p class="project-desc">A prototype and wireframe built for a Design Thinking class: a Student
+                Security Dashboard
+                designed to strengthen data‑usage security and increase student trust. The dashboard visualizes
+                access patterns, highlights risky data practices, and provides clear, student‑facing privacy
+                controls and audit trails. Features include role‑based views for admins, real‑time alerts for
+                suspicious access, anonymized usage analytics, and upload/consent tracking to support
+                transparent, accountable data handling. Try the live demo below!</p>
+            <p class="project-tech"><span class="skill">Figma</span> <span class="skill">APIs</span> <span
+                    class="skill">Build.io</span> <span class="skill">Data Security</span> <span
+                    class="skill">HTML</span> <span class="skill">SQL</span></p>
+            <div class="project-images three" aria-hidden="false">
+                <img src="{{ url_for('static', filename='images/project1.png') }}" alt="Portal - dashboard view" class="project-image" />
+                <img src="{{ url_for('static', filename='images/project12.png') }}" alt="Portal - assignment upload form" class="project-image" />
+                <img src="{{ url_for('static', filename='images/project123.png') }}" alt="Portal - import results and errors"
+                    class="project-image" />
+            </div>
+            <img src="{{ url_for('static', filename='images/project1234.png') }}" alt="Student Security Dashboard prototype screenshot"
+                class="profile-photo project-full" />
+            <p class="project-links">
+                <a class="btn btn-cta" href="https://2767aa172f5f482e8e498017991b4fe9-main.projects.builder.my/"
+                    target="_blank" rel="noopener">Live Demo</a>
+            </p>
+        </article>
+
+    </section>
+
+    <div style="margin-top:1.25rem; text-align:center;">
+        <a class="btn btn-cta" href="/contact">Have a project? Contact me</a>
+    </div>
+</main>
+{% endblock %}
